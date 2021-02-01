@@ -1,0 +1,8 @@
+REGISTER luigi foobar00
+DELAY 1
+LOGIN mario foobar00
+DELAY 1
+JOING 1
+DELAY 5
+SENDG hey mario are you still there?!
+DELAY 9999

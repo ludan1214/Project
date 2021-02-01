@@ -1,0 +1,10 @@
+REGISTER wario foobar00
+DELAY 1
+LOGIN wario foobar00
+DELAY 1
+JOING 1
+DELAY 1
+SENDG 1 Hello guys!
+DELAY 1
+LEAVEG 1
+DELAY 9999

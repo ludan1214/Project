@@ -1,0 +1,164 @@
+﻿<html>
+
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/css/bootstrap.min.css">
+  <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.1.1/jquery.min.js"></script>
+  <script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/js/bootstrap.min.js"></script>
+  <style type="text/css">
+    .navbar {
+      background-color: #563d7c;
+    }
+    .navbar-default .navbar-nav li a{
+      color: #eee;
+    }
+    .navbar-default .navbar-nav li a:hover{
+      color: white;
+    }
+    th, td{
+      text-align: center;
+    }
+    textarea {
+        width: 100%;
+        min-height: 30rem;
+        background-color: black;
+        font-family: "Lucida Console", Monaco, monospace;
+        font-size: 0.75 rem;
+        line-height: 1.2;
+        color: #fff;
+    }
+    #userName {
+      float: right;
+      font-weight: bold;
+      color: white;
+    }
+  </style>
+</head>
+
+<nav class="navbar navbar-default">
+  <div class="container-fluid">
+    <ul class="nav navbar-nav">
+      <li><a href="/"><b>Home</b></a></li>
+      <li><a href="/events"><b>Events</b></a></li>
+      <li><a href="/addEvent"><b>Add Event</b></a></li>
+      <li><a href="/stock"><b>Stock Page</b></a></li>
+      <li><a href="/admin"><b>Admin</b></a></li>
+      <li><a href="/logout">
+        <span class="glyphicon glyphicon-log-out" aria-hidden="true"></span>
+      </a></li>
+    </ul>
+    <p id="userName">Welcome</p>
+  </div>
+</nav>
+<br><br>
+
+  <div class="container">
+    <div class="panel panel-default">
+      <div class="panel-body"><center>Welcome to Stock Page</center></div>
+    </div>
+  </div>
+
+  <div class="container">
+    <div class="row">
+      <div class="col">
+        <table class="table table-bordered table-hover">
+          <tbody>
+            <tr>
+              <td class="col-md-6">Company</td>
+              <td class="col-md-6">
+                <div class="form-group">
+                  <select id = "sym" name="Company">
+                    <option value="MSFT">Microsoft</option>
+                    <option value="BA">Boeing Company</option>
+                    <option value="AAPL">Apple Inc</option>
+                    <option value="AMZN">Amazon</option>
+                    <option value="NVDA">NVIDIA Corporation</option>
+                  </select>
+                </div>
+              </td>
+            </tr>
+            <tr>
+              <td colspan="2">
+                <button type="button" onclick="getData()">Get Data</button>
+              </td>
+            </tr>
+          </tbody>
+        </table>
+      </div>
+    </div>
+  </div>
+
+  <div class="container">
+    <table class="table" id="StockData">
+      <thead>
+        <tr>
+          <th scope="col" >Company-MetaData</th>
+          <th scope="col" >Stock-Info</th>
+        </tr>
+      </thead>
+      <tbody></tbody>
+    </table>
+  </div>
+
+  <script type="text/javascript">
+  $(function() {
+    console.log("function()");
+    $.get("userLogin").done(function(response) {
+      document.getElementById("userName").innerHTML = "Welcome " + response.login + "!";
+    });
+  });
+
+	var metaInfo, stockInfo;
+	function getData(){
+		var xmlhttp = new XMLHttpRequest();
+		var symbol = document.getElementById('sym').value;
+		var url = "https://www.alphavantage.co/query?function=TIME_SERIES_DAILY&symbol="+symbol+"&interval=5min&outputsize=full&apikey=LQJFPVF7TN5ZH3CU";
+
+		xmlhttp.onreadystatechange = function() {
+			if (xmlhttp.readyState == 4 && xmlhttp.status == 200) {
+				var stockArr = JSON.parse(xmlhttp.responseText);
+				console.log(stockArr);
+				setPage();
+				updatePage(stockArr);
+			}
+		}
+
+		xmlhttp.open("GET", url, true);
+		xmlhttp.send();
+	}
+
+	function setPage(){
+		var t = document.getElementById('StockData');
+		t.innerHTML = '<thead><tr><th scope="col" >Company-MetaData</th><th scope="col" >Stock-Info</th></tr></thead>';
+		var row = t.insertRow(-1); // -1 to append to table
+		metaInfo = row.insertCell(0);
+		stockInfo = row.insertCell(1);
+	}
+
+	function updatePage(stockArr) {
+		var boxStyle = '<div style="height:500px;width:500px;overflow:auto;background-color:black;color:white;scrollbar-base-color:gold;font-family:sans-serif;padding:10px;">'
+		// Format metadata box
+		var metaData = (stockArr[id='Meta Data']);
+		var metaString = "";
+		for(term in metaData) {
+			metaString += term + ": " + metaData[id=term] + "<br>";
+		}
+		metaInfo.innerHTML = boxStyle + metaString + '</div>';
+		//Format Stockinfo Box
+		var timeString = "";
+		var timeSeries = stockArr[id='Time Series (Daily)'];
+		for(day in timeSeries){
+			var elem1 = (day + "<br>");
+			timeString += elem1;
+			for(term in timeSeries[day]) {
+				var elem2 = "	" + term + ": " + (timeSeries[day])[id=term]+ "<br>";
+				timeString += elem2;
+			}
+		}
+		stockInfo.innerHTML = boxStyle + timeString + '</div>';
+	}
+    // TODO: Hit the TIME_SERIES_DAILY endpoint of the alphavantage API for the company that was selected in the dropdown. Display the JSON data as shown in the writeup.
+  </script>
+</body>
+</html>

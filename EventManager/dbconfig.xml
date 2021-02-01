@@ -1,0 +1,8 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<dbconfig>
+  <host>cse-larry.cse.umn.edu</host>
+  <user>C4131F20U57</user>
+  <password>3279</password>
+  <database>C4131F20U57</database>
+  <port>3306</port>
+</dbconfig>

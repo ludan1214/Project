@@ -1,0 +1,17 @@
+REGISTER mario foobar00
+DELAY 1
+LOGIN mario foobar00
+DELAY 1
+SEND Hello
+DELAY 1
+SEND2 mario Hello
+DELAY 1
+SENDA Hello
+DELAY 1
+SENDA2 mario Hello
+DELAY 1
+SENDF readme.txt
+DELAY 1
+SENDF2 mario readme.txt
+DELAY 1
+LIST

@@ -1,0 +1,15 @@
+REGISTER luigi foobar00
+DELAY 1
+LOGIN luigi foobar00
+DELAY 1
+JOING 2
+DELAY 2
+SENDG 2 Hello?
+DELAY 1
+SENDG 2 Seems like no one is here
+DELAY 2
+LEAVEG 2
+DELAY 1
+JOING 1
+SENDG 1 Hello?
+DELAY 9999
